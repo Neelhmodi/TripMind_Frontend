@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <!-- Novotel dark grey brand font and line -->
+  <text x="50" y="56" font-family="'Inter', sans-serif" font-weight="800" font-size="15.5" fill="#0f172a" text-anchor="middle" letter-spacing="1">NOVOTEL</text>
+  <line x1="30" y1="68" x2="70" y2="68" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <!-- Oberoi double-oval motif -->
+  <ellipse cx="50" cy="45" rx="30" ry="18" fill="none" stroke="#927134" stroke-width="3"/>
+  <ellipse cx="50" cy="45" rx="18" ry="30" fill="none" stroke="#927134" stroke-width="3"/>
+  <circle cx="50" cy="45" r="6" fill="#927134"/>
+  <text x="50" y="86" font-family="'Times New Roman', Georgia, serif" font-weight="bold" font-size="12" fill="#927134" text-anchor="middle" letter-spacing="1">OBEROI</text>
+</svg>
