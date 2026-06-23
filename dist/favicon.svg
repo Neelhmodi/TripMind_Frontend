@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" rx="20" fill="#0770e3"/>
+  <!-- Plane icon -->
+  <path d="M20 50 L45 35 L55 45 L75 25 M20 70 L45 55 L55 65 L75 45" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

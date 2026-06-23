@@ -65,19 +65,9 @@ export default function HotelCard({ hotel, index }) {
         e.currentTarget.style.borderColor = 'var(--mist)';
       }}
     >
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: '220px 1fr 200px',
-        alignItems: 'center',
-        gap: 24,
-        padding: '20px 24px',
-      }}>
+      <div className="hotel-card-grid">
         {/* Left: Hotel Image */}
-        <div style={{
-          width: 220, height: 140, borderRadius: 'var(--radius-md)',
-          overflow: 'hidden', flexShrink: 0, position: 'relative',
-          border: '1px solid var(--mist)'
-        }}>
+        <div className="hotel-image-wrapper">
           <img
             src={mainImage}
             alt={hotel.hotel_name}
@@ -102,7 +92,7 @@ export default function HotelCard({ hotel, index }) {
         </div>
 
         {/* Middle: Details */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        <div className="hotel-details-wrapper">
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
             <h3 style={{
               fontWeight: 700, fontSize: 18, color: 'var(--ink)',
@@ -160,7 +150,7 @@ export default function HotelCard({ hotel, index }) {
         </div>
 
         {/* Right: Price & Redirection */}
-        <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>
+        <div className="hotel-price-book">
           <div>
             <div style={{
               fontSize: 22, fontWeight: 800, color: 'var(--ink)',
@@ -211,7 +201,7 @@ export default function HotelCard({ hotel, index }) {
           borderTop: '1px solid var(--mist)',
           animation: 'fadeIn 0.2s ease',
         }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+          <div className="hotel-card-details-grid">
             {/* Nearby Places */}
             {hotel.nearby_places && hotel.nearby_places.length > 0 && (
               <div style={{

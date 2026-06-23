@@ -729,20 +729,16 @@ export default function SearchForm({ initialData, isSidebar = false }) {
             </div>
           </div>
         ) : (
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 14 }}>
+          <div className="search-city-row" style={{ width: '100%' }}>
             <div style={{ flex: 1, background: 'var(--cloud)', borderRadius: 'var(--radius-md)', padding: '8px 12px' }}>
               <CityInput label="From" value={origin.city} iata={origin.iata}
                  onChange={handleOriginChange} placeholder="Departure city" />
               {errors.origin && <p style={{ color: 'var(--danger)', fontSize: 11, marginTop: 4 }}>{errors.origin}</p>}
             </div>
 
-            <button onClick={swap} style={{
-              width: 32, height: 32, borderRadius: '50%', background: 'var(--sky)', color: 'white',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, flexShrink: 0,
-              boxShadow: 'var(--shadow-sky)', transition: 'transform .3s',
-            }}
-            onMouseEnter={e => e.currentTarget.style.transform = 'rotate(180deg) scale(1.1)'}
-            onMouseLeave={e => e.currentTarget.style.transform = 'none'}
+            <button onClick={swap} className="search-swap-btn"
+            onMouseEnter={e => { if (window.innerWidth > 576) e.currentTarget.style.transform = 'rotate(180deg) scale(1.1)'; }}
+            onMouseLeave={e => { if (window.innerWidth > 576) e.currentTarget.style.transform = 'none'; }}
             title="Swap cities">⇄</button>
 
             <div style={{ flex: 1, background: 'var(--cloud)', borderRadius: 'var(--radius-md)', padding: '8px 12px' }}>
