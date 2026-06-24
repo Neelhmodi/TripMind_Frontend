@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Plane, Hotel } from 'lucide-react';
 
 export default function Navbar({ serviceType, onServiceTypeChange }) {
   const [scrolled, setScrolled] = useState(false);
@@ -68,10 +69,11 @@ export default function Navbar({ serviceType, onServiceTypeChange }) {
               height: 38,
             }}>
               {[
-                { id: 'flights', label: 'Flights', icon: '✈️' },
-                { id: 'hotels', label: 'Hotels', icon: '🏨' },
+                { id: 'flights', label: 'Flights', icon: Plane },
+                { id: 'hotels', label: 'Hotels', icon: Hotel },
               ].map(tab => {
                 const active = activeService === tab.id;
+                const IconComponent = tab.icon;
                 return (
                   <button
                     key={tab.id}
@@ -115,7 +117,9 @@ export default function Navbar({ serviceType, onServiceTypeChange }) {
                       }
                     }}
                   >
-                    <span style={{ fontSize: 13, display: 'flex', alignItems: 'center' }}>{tab.icon}</span>
+                    <span style={{ display: 'flex', alignItems: 'center' }}>
+                      <IconComponent size={16} strokeWidth={2.4} />
+                    </span>
                     <span className="nav-tab-label">{tab.label}</span>
                   </button>
                 );
