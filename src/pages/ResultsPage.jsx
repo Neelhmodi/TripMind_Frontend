@@ -139,7 +139,14 @@ export default function ResultsPage() {
     setSelectedAirlines([]);
     setShowSearch(false);
     fetchData();
+    window.scrollTo(0, 0);
   }, [fetchData]);
+
+  useEffect(() => {
+    if (!loading) {
+      window.scrollTo(0, 0);
+    }
+  }, [loading]);
 
   const getSortedFiltered = () => {
     if (isHotels) {

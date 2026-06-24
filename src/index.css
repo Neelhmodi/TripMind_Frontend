@@ -830,26 +830,20 @@ a {
     padding: 32px 16px;
     margin: 24px auto;
   }
-  /* Convert conveyor containers to native horizontal swipe on mobile & tablets */
+  /* Keep automated scrolling conveyors on mobile & tablets */
   .conveyor-container {
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 12px;
-    scrollbar-width: thin;
+    overflow: hidden !important;
+    padding-bottom: 10px;
   }
   .conveyor-track {
-    animation: none !important;
     padding: 0 4px;
   }
   .airline-conveyor-section {
     transform: none !important; /* Remove rotation for clean alignment on mobile */
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 12px;
+    overflow: hidden !important;
     margin: 20px 0;
   }
   .airline-conveyor-track {
-    animation: none !important;
     padding: 0 4px;
   }
   .airline-logo-card {
@@ -864,6 +858,181 @@ a {
   .search-fields-grid, .search-fields-grid-5 {
     grid-template-columns: 1fr;
     gap: 8px;
+  }
+}
+
+/* Booking modal styles */
+.booking-modal-container {
+  background: white;
+  border-radius: 24px;
+  width: 90%;
+  max-width: 500px;
+  padding: 40px;
+  position: relative;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-sizing: border-box;
+}
+
+.booking-modal-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--cloud);
+  color: var(--slate);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+  transition: var(--transition);
+}
+
+.booking-modal-close:hover {
+  background: #e2e8f0;
+}
+
+.booking-modal-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--midnight);
+  margin: 0 0 8px 0;
+  text-align: left;
+}
+
+.booking-modal-details {
+  color: var(--slate);
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 28px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.booking-option-card {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  align-items: center;
+  gap: 16px;
+  border: 1.5px solid var(--mist);
+  border-radius: 16px;
+  padding: 16px 20px;
+  transition: var(--transition);
+  background: white;
+  box-sizing: border-box;
+}
+
+.booking-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+  font-family: var(--font-display);
+  padding: 8px 14px;
+  border-radius: 8px;
+}
+
+.booking-option-desc {
+  font-size: 13px;
+  color: var(--slate);
+  font-weight: 500;
+}
+
+.booking-action-btn {
+  border: none;
+  padding: 8px 20px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+.booking-action-btn:hover {
+  transform: translateX(3px);
+}
+
+/* Specific cards border/hover behaviors */
+.booking-option-card.booking-com-card:hover {
+  border-color: #003580;
+  background: #f8fafc;
+}
+.booking-option-card.makemytrip-card:hover {
+  border-color: #d91e36;
+  background: #fdf2f4;
+}
+.booking-option-card.expedia-card:hover {
+  border-color: #ffbf00;
+  background: #fffbeb;
+}
+
+@media (max-width: 576px) {
+  .booking-modal-container {
+    padding: 32px 20px 24px;
+    border-radius: 20px;
+  }
+  
+  .booking-modal-close {
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+  
+  .booking-modal-title {
+    font-size: 20px;
+  }
+  
+  .booking-modal-details {
+    font-size: 12px;
+    margin-bottom: 20px;
+  }
+  
+  .booking-option-card {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 8px;
+    padding: 12px 14px;
+  }
+  
+  .booking-brand-badge {
+    grid-column: 1;
+    justify-self: start;
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+  
+  .booking-action-btn {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+  
+  .booking-option-desc {
+    grid-column: 1 / span 2;
+    grid-row: 2;
+    font-size: 12px !important;
   }
 }
 

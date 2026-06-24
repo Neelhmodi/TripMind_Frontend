@@ -315,68 +315,22 @@ export default function HotelCard({ hotel, index }) {
           }}
         >
           {/* Modal Container */}
-          <div style={{
-            background: 'white',
-            borderRadius: 24,
-            width: '90%',
-            maxWidth: 550,
-            padding: 36,
-            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.25)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            position: 'relative',
-            animation: 'slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)'
-          }}>
+          <div className="booking-modal-container">
             {/* Close Button */}
             <button 
+              className="booking-modal-close"
               onClick={() => setShowModal(false)}
-              style={{
-                position: 'absolute',
-                top: 24,
-                right: 24,
-                width: 36,
-                height: 36,
-                borderRadius: '50%',
-                background: 'var(--cloud)',
-                color: 'var(--slate)',
-                border: 'none',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontWeight: 'bold',
-                fontSize: 16,
-                transition: 'var(--transition)'
-              }}
-              onMouseEnter={e => e.currentTarget.style.background = '#e2e8f0'}
-              onMouseLeave={e => e.currentTarget.style.background = 'var(--cloud)'}
             >
               ✕
             </button>
 
             {/* Header */}
-            <h2 style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 24,
-              fontWeight: 800,
-              color: 'var(--midnight)',
-              margin: '0 0 8px 0',
-              textAlign: 'left'
-            }}>
+            <h2 className="booking-modal-title">
               Book this hotel via
             </h2>
 
             {/* Subtitle / Details */}
-            <div style={{
-              color: 'var(--slate)',
-              fontSize: 14,
-              fontWeight: 500,
-              marginBottom: 28,
-              textAlign: 'left',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-              flexWrap: 'wrap'
-            }}>
+            <div className="booking-modal-details">
               <span style={{ fontWeight: 700, color: 'var(--ink)' }}>{hotel.hotel_name}</span>
               <span>·</span>
               <span>{hotel.check_in_date && hotel.check_out_date ? `${formatDate(hotel.check_in_date)} – ${formatDate(hotel.check_out_date)}` : 'Dates flexible'}</span>
@@ -388,171 +342,60 @@ export default function HotelCard({ hotel, index }) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               
               {/* Option 1: Booking.com */}
-              <div style={{
-                border: '1.5px solid var(--mist)',
-                borderRadius: 16,
-                padding: '16px 20px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                transition: 'var(--transition)',
-                background: 'white',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = '#003580'; e.currentTarget.style.background = '#f8fafc'; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--mist)'; e.currentTarget.style.background = 'white'; }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                  <div style={{
-                    background: '#003580',
-                    color: 'white',
-                    padding: '8px 14px',
-                    borderRadius: 8,
-                    fontWeight: 800,
-                    fontSize: 14,
-                    letterSpacing: '-0.2px',
-                    fontFamily: 'var(--font-display)'
-                  }}>
-                    Booking.com
-                  </div>
-                  <span style={{ fontSize: 13, color: 'var(--slate)', fontWeight: 500 }}>
-                    Most popular globally
-                  </span>
+              <div className="booking-option-card booking-com-card">
+                <div className="booking-brand-badge" style={{ background: '#003580', color: 'white' }}>
+                  Booking.com
                 </div>
+                <span className="booking-option-desc">
+                  Most popular globally
+                </span>
                 <button
+                  className="booking-action-btn"
                   onClick={() => {
                     const link = hotel.booking_links?.booking_com || 'https://www.booking.com';
                     window.open(link, '_blank');
                   }}
-                  style={{
-                    background: '#003580',
-                    color: 'white',
-                    border: 'none',
-                    padding: '8px 20px',
-                    borderRadius: 10,
-                    fontSize: 13,
-                    fontWeight: 700,
-                    cursor: 'pointer',
-                    transition: 'var(--transition)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 6
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.transform = 'translateX(3px)'}
-                  onMouseLeave={e => e.currentTarget.style.transform = 'none'}
+                  style={{ background: '#003580', color: 'white' }}
                 >
                   Book ➔
                 </button>
               </div>
 
               {/* Option 2: MakeMyTrip */}
-              <div style={{
-                border: '1.5px solid var(--mist)',
-                borderRadius: 16,
-                padding: '16px 20px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                transition: 'var(--transition)',
-                background: 'white',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = '#d91e36'; e.currentTarget.style.background = '#fdf2f4'; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--mist)'; e.currentTarget.style.background = 'white'; }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                  <div style={{
-                    background: '#d91e36',
-                    color: 'white',
-                    padding: '8px 14px',
-                    borderRadius: 8,
-                    fontWeight: 800,
-                    fontSize: 14,
-                    letterSpacing: '-0.2px',
-                    fontFamily: 'var(--font-display)'
-                  }}>
-                    MakeMyTrip
-                  </div>
-                  <span style={{ fontSize: 13, color: 'var(--slate)', fontWeight: 500 }}>
-                    Best for India bookings
-                  </span>
+              <div className="booking-option-card makemytrip-card">
+                <div className="booking-brand-badge" style={{ background: '#d91e36', color: 'white' }}>
+                  MakeMyTrip
                 </div>
+                <span className="booking-option-desc">
+                  Best for India bookings
+                </span>
                 <button
+                  className="booking-action-btn"
                   onClick={() => {
                     const link = hotel.booking_links?.makemytrip || 'https://www.makemytrip.com';
                     window.open(link, '_blank');
                   }}
-                  style={{
-                    background: '#d91e36',
-                    color: 'white',
-                    border: 'none',
-                    padding: '8px 20px',
-                    borderRadius: 10,
-                    fontSize: 13,
-                    fontWeight: 700,
-                    cursor: 'pointer',
-                    transition: 'var(--transition)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 6
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.transform = 'translateX(3px)'}
-                  onMouseLeave={e => e.currentTarget.style.transform = 'none'}
+                  style={{ background: '#d91e36', color: 'white' }}
                 >
                   Book ➔
                 </button>
               </div>
 
               {/* Option 3: Expedia */}
-              <div style={{
-                border: '1.5px solid var(--mist)',
-                borderRadius: 16,
-                padding: '16px 20px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                transition: 'var(--transition)',
-                background: 'white',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = '#ffbf00'; e.currentTarget.style.background = '#fffbeb'; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--mist)'; e.currentTarget.style.background = 'white'; }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                  <div style={{
-                    background: '#ffbf00',
-                    color: '#1e293b',
-                    padding: '8px 14px',
-                    borderRadius: 8,
-                    fontWeight: 800,
-                    fontSize: 14,
-                    letterSpacing: '-0.2px',
-                    fontFamily: 'var(--font-display)'
-                  }}>
-                    Expedia
-                  </div>
-                  <span style={{ fontSize: 13, color: 'var(--slate)', fontWeight: 500 }}>
-                    Good for international stays
-                  </span>
+              <div className="booking-option-card expedia-card">
+                <div className="booking-brand-badge" style={{ background: '#ffbf00', color: '#1e293b' }}>
+                  Expedia
                 </div>
+                <span className="booking-option-desc">
+                  Good for international stays
+                </span>
                 <button
+                  className="booking-action-btn"
                   onClick={() => {
                     const link = hotel.booking_links?.expedia || 'https://www.expedia.co.in';
                     window.open(link, '_blank');
                   }}
-                  style={{
-                    background: '#ffbf00',
-                    color: '#1e293b',
-                    border: 'none',
-                    padding: '8px 20px',
-                    borderRadius: 10,
-                    fontSize: 13,
-                    fontWeight: 700,
-                    cursor: 'pointer',
-                    transition: 'var(--transition)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 6
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.transform = 'translateX(3px)'}
-                  onMouseLeave={e => e.currentTarget.style.transform = 'none'}
+                  style={{ background: '#ffbf00', color: '#1e293b' }}
                 >
                   Book ➔
                 </button>
