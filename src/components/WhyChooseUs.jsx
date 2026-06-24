@@ -139,13 +139,7 @@ export default function WhyChooseUs({ serviceType = 'flights' }) {
   const cards = isHotels ? HOTEL_CARDS : FLIGHT_CARDS;
 
   return (
-    <div style={{ 
-      maxWidth: 1280, 
-      margin: '40px auto 48px', 
-      padding: '48px 24px', 
-      background: 'linear-gradient(180deg, #ffffff 0%, rgba(7, 112, 227, 0.015) 100%)', 
-      borderRadius: 'var(--radius-xl)' 
-    }}>
+    <div className="benefits-container">
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: 44 }}>
         <div style={{

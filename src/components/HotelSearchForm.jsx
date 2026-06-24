@@ -520,7 +520,7 @@ export default function HotelSearchForm({ initialData, isSidebar = false }) {
         </div>
 
         {/* Dates + rooms + guests */}
-        <div style={{ display: 'flex', gap: 10, marginBottom: 12, flexWrap: 'wrap' }}>
+        <div className="search-fields-grid-5">
           {/* Check-in */}
           <div style={{ flex: '1 1 130px', background: 'var(--cloud)', borderRadius: 'var(--radius-md)', padding: isSidebar ? '4px 10px' : '8px 12px', display: 'flex', alignItems: 'center' }}>
             <DatePicker

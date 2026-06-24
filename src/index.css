@@ -222,8 +222,8 @@ a {
 /* Responsiveness for mobile and tablet */
 @media (max-width: 1024px) {
   .hero-container {
-    padding-top: 100px;
-    padding-bottom: 60px;
+    padding-top: 80px;
+    padding-bottom: 40px;
     min-height: auto;
   }
   
@@ -239,45 +239,11 @@ a {
   }
   
   .hero-right {
-    position: absolute;
-    right: -40px;
-    top: 130px;
-    opacity: 0.1;
-    z-index: 0;
-    pointer-events: none;
-    justify-content: center;
-  }
-  
-  .hero-img-1 {
-    width: 280px;
-    height: 290px;
-  }
-  
-  .hero-img-2 {
-    width: 140px;
-    height: 290px;
+    display: none !important;
   }
   
   .hero-section {
     min-height: auto;
-  }
-}
-
-@media (max-width: 576px) {
-  .hero-right {
-    right: -80px;
-    top: 180px;
-    opacity: 0.08;
-  }
-  
-  .hero-img-1 {
-    width: 220px;
-    height: 230px;
-  }
-  
-  .hero-img-2 {
-    width: 110px;
-    height: 230px;
   }
 }
 
@@ -823,3 +789,81 @@ a {
     gap: 6px;
   }
 }
+
+/* Custom Responsive Grid and Conveyor Belt Swipe Utilities */
+.search-fields-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1.2fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.search-fields-grid-5 {
+  display: grid;
+  grid-template-columns: 1.2fr 1.2fr 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.benefits-container {
+  max-width: 1280px;
+  margin: 40px auto 48px;
+  padding: 48px 24px;
+  background: linear-gradient(180deg, #ffffff 0%, rgba(7, 112, 227, 0.015) 100%);
+  border-radius: var(--radius-xl);
+}
+
+@media (max-width: 992px) {
+  .search-fields-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .search-fields-grid-5 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .search-fields-grid-5 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .benefits-container {
+    padding: 32px 16px;
+    margin: 24px auto;
+  }
+  /* Convert conveyor containers to native horizontal swipe on mobile & tablets */
+  .conveyor-container {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 12px;
+    scrollbar-width: thin;
+  }
+  .conveyor-track {
+    animation: none !important;
+    padding: 0 4px;
+  }
+  .airline-conveyor-section {
+    transform: none !important; /* Remove rotation for clean alignment on mobile */
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 12px;
+    margin: 20px 0;
+  }
+  .airline-conveyor-track {
+    animation: none !important;
+    padding: 0 4px;
+  }
+  .airline-logo-card {
+    transform: none !important; /* Remove counter-rotation */
+  }
+  .airline-logo-card:hover {
+    transform: translateY(-4px) !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .search-fields-grid, .search-fields-grid-5 {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+

@@ -750,7 +750,7 @@ export default function SearchForm({ initialData, isSidebar = false }) {
         )}
 
         {/* Dates + passengers */}
-        <div style={{ display: 'flex', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
+        <div className="search-fields-grid">
           {/* Depart */}
           <div style={{ flex: '1 1 130px', background: 'var(--cloud)', borderRadius: 'var(--radius-md)', padding: isSidebar ? '4px 10px' : '8px 12px', display: 'flex', alignItems: 'center' }}>
             <CustomDatePicker
