@@ -26,6 +26,12 @@ export default function ResultsPage() {
   const [showSearch, setShowSearch] = useState(false);
   const [selectedAirlines, setSelectedAirlines] = useState([]);
 
+  // Mobile filters states
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
+  const [tempSortBy, setTempSortBy] = useState('price');
+  const [tempPriceRange, setTempPriceRange] = useState(0);
+  const [tempSelectedAirlines, setTempSelectedAirlines] = useState([]);
+
   // Decrypt parameters if available
   const q = searchParams.get('q');
   const decrypted = q ? decryptParams(q) : {};
@@ -200,6 +206,26 @@ export default function ResultsPage() {
     : results?.outbound_flights?.map(f => f.price_inr).filter(Boolean) || [];
   const minP = allPrices.length ? Math.min(...allPrices) : null;
   const maxP = allPrices.length ? Math.max(...allPrices) : null;
+
+  const openMobileFilters = () => {
+    setTempSortBy(sortBy);
+    setTempPriceRange(priceRange || maxP || 0);
+    setTempSelectedAirlines(selectedAirlines);
+    setShowMobileFilters(true);
+  };
+
+  const applyMobileFilters = () => {
+    setSortBy(tempSortBy);
+    setPriceRange(tempPriceRange);
+    setSelectedAirlines(tempSelectedAirlines);
+    setShowMobileFilters(false);
+  };
+
+  const clearMobileFilters = () => {
+    setTempSortBy('price');
+    setTempPriceRange(maxP || 0);
+    setTempSelectedAirlines([]);
+  };
 
   const routeLabel = nlp
     ? nlp
@@ -437,7 +463,7 @@ export default function ResultsPage() {
             {/* Left Sidebar (Filters + Modify Search) */}
             <div className="results-sidebar" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               {/* Filters Card */}
-              <div style={{
+              <div className="results-filter-card" style={{
                 background: 'white',
                 borderRadius: 'var(--radius-lg)',
                 border: '1px solid var(--mist)',
@@ -667,6 +693,198 @@ export default function ResultsPage() {
       </div>
 
       <Footer serviceType={serviceType} />
+
+      {/* Mobile Floating Filters Button */}
+      {!loading && !error && results?.status !== 'missing_fields' && flights.length > 0 && (
+        <div className="mobile-filter-trigger-wrapper">
+          <button className="mobile-filter-trigger-btn" onClick={openMobileFilters}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0770e3" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="4" y1="8" x2="20" y2="8"></line>
+              <line x1="4" y1="16" x2="20" y2="16"></line>
+              <circle cx="16" cy="8" r="2.5" fill="white" stroke="#0770e3" strokeWidth="2.5"></circle>
+              <circle cx="8" cy="16" r="2.5" fill="white" stroke="#0770e3" strokeWidth="2.5"></circle>
+            </svg>
+            <span>Filters</span>
+          </button>
+        </div>
+      )}
+
+      {/* Mobile Filters Portal */}
+      {showMobileFilters && ReactDOM.createPortal(
+        <div 
+          className="mobile-filters-modal"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowMobileFilters(false);
+            }
+          }}
+        >
+          <div className="mobile-filters-sheet">
+            {/* Header */}
+            <div className="mobile-filters-header">
+              <h3>
+                Filters
+                <span className="count-badge">
+                  {flights.length} {isHotels ? 'hotel' : 'flight'}{flights.length !== 1 ? 's' : ''}
+                </span>
+              </h3>
+              <button 
+                className="mobile-filters-close-btn"
+                onClick={() => setShowMobileFilters(false)}
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="mobile-filters-body">
+              
+              {/* Sort By Segment */}
+              <div>
+                <h4 style={{
+                  fontSize: 12,
+                  fontWeight: 700,
+                  color: 'var(--slate)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  margin: '0 0 10px 0',
+                }}>
+                  Sort By
+                </h4>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
+                  {[
+                    { value: 'price',    label: 'Price'   },
+                    { value: 'duration', label: isHotels ? 'Rating' : 'Duration' },
+                    { value: 'depart',   label: isHotels ? 'Reviews' : 'Depart'  },
+                  ].map(s => (
+                    <button
+                      key={s.value}
+                      onClick={() => setTempSortBy(s.value)}
+                      style={{
+                        padding: '12px 6px',
+                        borderRadius: 8,
+                        background: tempSortBy === s.value ? 'var(--sky)' : 'var(--cloud)',
+                        color: tempSortBy === s.value ? 'white' : 'var(--slate)',
+                        fontSize: 12,
+                        fontWeight: 700,
+                        transition: 'var(--transition)',
+                        border: '1.5px solid',
+                        borderColor: tempSortBy === s.value ? 'var(--sky)' : 'var(--mist)',
+                        textAlign: 'center',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {s.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Price Range Slider */}
+              {minP && maxP && (
+                <div style={{ borderTop: '1px solid var(--mist)', paddingTop: 20 }}>
+                  <h4 style={{
+                    fontSize: 12,
+                    fontWeight: 700,
+                    color: 'var(--slate)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.08em',
+                    margin: '0 0 10px 0',
+                  }}>
+                    Max Price
+                  </h4>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, fontWeight: 700, color: 'var(--slate)', marginBottom: 8 }}>
+                    <span>₹{Math.round(minP / 1000)}K</span>
+                    <span style={{ color: 'var(--sky)', fontWeight: 800 }}>₹{Math.round(tempPriceRange / 1000)}K</span>
+                  </div>
+                  <input
+                    type="range"
+                    min={minP}
+                    max={maxP}
+                    value={tempPriceRange}
+                    onChange={e => setTempPriceRange(Number(e.target.value))}
+                    style={{ width: '100%', accentColor: 'var(--sky)', cursor: 'pointer' }}
+                  />
+                </div>
+              )}
+
+              {/* Airlines Checkboxes */}
+              {!isHotels && uniqueAirlines.length > 0 && (
+                <div style={{ borderTop: '1px solid var(--mist)', paddingTop: 20 }}>
+                  <h4 style={{
+                    fontSize: 12,
+                    fontWeight: 700,
+                    color: 'var(--slate)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.08em',
+                    margin: '0 0 12px 0',
+                  }}>
+                    Airlines
+                  </h4>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxHeight: 200, overflowY: 'auto', paddingRight: 4 }}>
+                    {uniqueAirlines.map(airline => {
+                      const isChecked = tempSelectedAirlines.includes(airline);
+                      return (
+                        <label
+                          key={airline}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 10,
+                            fontSize: 14,
+                            fontWeight: 600,
+                            color: 'var(--ink)',
+                            cursor: 'pointer',
+                            padding: '4px 0',
+                          }}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={isChecked}
+                            onChange={() => {
+                              if (isChecked) {
+                                setTempSelectedAirlines(tempSelectedAirlines.filter(a => a !== airline));
+                              } else {
+                                setTempSelectedAirlines([...tempSelectedAirlines, airline]);
+                              }
+                            }}
+                            style={{
+                              width: 18,
+                              height: 18,
+                              accentColor: 'var(--sky)',
+                              cursor: 'pointer',
+                            }}
+                          />
+                          <span>{airline}</span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+            </div>
+
+            {/* Footer Actions */}
+            <div className="mobile-filters-footer">
+              <button 
+                className="mobile-filters-clear-btn"
+                onClick={clearMobileFilters}
+              >
+                Clear All
+              </button>
+              <button 
+                className="mobile-filters-apply-btn"
+                onClick={applyMobileFilters}
+              >
+                Apply Filters
+              </button>
+            </div>
+
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 }
