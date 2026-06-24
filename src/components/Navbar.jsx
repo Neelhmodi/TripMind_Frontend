@@ -22,9 +22,9 @@ export default function Navbar({ serviceType, onServiceTypeChange }) {
     <>
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
-        background: scrolled ? 'rgba(5, 32, 60, 0.97)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(20px)' : 'none',
-        borderBottom: scrolled ? '1px solid rgba(255,255,255,0.08)' : (isLightNavbar ? '1px solid rgba(22, 30, 45, 0.08)' : 'none'),
+        background: (scrolled || !isHomePage) ? 'rgba(5, 32, 60, 0.97)' : 'transparent',
+        backdropFilter: (scrolled || !isHomePage) ? 'blur(20px)' : 'none',
+        borderBottom: (scrolled || !isHomePage) ? '1px solid rgba(255,255,255,0.08)' : (isLightNavbar ? '1px solid rgba(22, 30, 45, 0.08)' : 'none'),
         transition: 'all 0.3s ease',
         padding: 0,
       }}>
