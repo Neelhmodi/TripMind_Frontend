@@ -89,6 +89,13 @@ export async function getMe() {
   return apiFetch('/auth/me');
 }
 
+export async function subscribeNewsletter(email) {
+  return apiFetch('/auth/subscribe', {
+    method: 'POST',
+    body: JSON.stringify({ email }),
+  });
+}
+
 export function logout() {
   localStorage.removeItem('tm_token');
   localStorage.removeItem('tm_user');

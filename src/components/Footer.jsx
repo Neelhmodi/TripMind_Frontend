@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { encryptParams } from '../utils/urlHelper.js';
+import { subscribeNewsletter } from '../utils/api.js';
 
 const TechBadge = ({ label }) => (
   <span style={{
@@ -24,8 +25,9 @@ export default function Footer({ serviceType }) {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubscribe = () => {
+  const handleSubscribe = async () => {
     if (!email.trim()) {
       setError('Email is required');
       return;
@@ -36,7 +38,16 @@ export default function Footer({ serviceType }) {
       return;
     }
     setError('');
-    setSubscribed(true);
+    setLoading(true);
+    try {
+      await subscribeNewsletter(email.trim());
+      setSubscribed(true);
+      setEmail('');
+    } catch (err) {
+      setError(err.message || 'Failed to subscribe. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleHotLink = (city, iata) => {
@@ -84,14 +95,14 @@ export default function Footer({ serviceType }) {
   return (
     <footer style={{
       background: 'var(--midnight)',
-      color: '#94a3b8',
+      color: '#ffffff',
       fontFamily: 'var(--font-body)',
       borderTop: '1px solid rgba(255, 255, 255, 0.06)',
       paddingTop: '64px',
       paddingBottom: '32px',
       overflow: 'hidden'
     }}>
-      {/* Upper Footer: 4-Column Layout */}
+      {/* Upper Footer: 3-Column Layout */}
       <div style={{
         maxWidth: 1280,
         margin: '0 auto',
@@ -122,7 +133,7 @@ export default function Footer({ serviceType }) {
               <span style={{ color: '#38bdf8' }}>Mind</span>
             </span>
           </div>
-          <p style={{ fontSize: 13, lineHeight: 1.6, color: '#64748b' }}>
+          <p style={{ fontSize: 13, lineHeight: 1.6, color: '#ffffff' }}>
             {isHotels 
               ? 'Next-generation hotel booking assistant. Specify your lodging preferences in natural Hinglish or English and let our LangGraph agent find the best accommodations.'
               : 'Next-generation travel planning assistant. Specify your flight preferences in natural Hinglish or English and let our LangGraph agent find the best itineraries.'
@@ -130,40 +141,8 @@ export default function Footer({ serviceType }) {
           </p>
         </div>
 
-        {/* Column 2: Capabilities */}
-        <div>
-          <h4 style={{
-            color: 'white',
-            fontFamily: 'var(--font-display)',
-            fontSize: 14,
-            fontWeight: 700,
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            marginBottom: 20
-          }}>Capabilities</h4>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12, fontSize: 13 }}>
-            {[
-              { label: isHotels ? 'AI Hotel Search' : 'AI Flight Search', href: '/#nlp' },
-              { label: 'Form-Based Lookup', href: '/' },
-              { label: isHotels ? 'Live Google Hotels Feeds' : 'Live Google Flights Feeds', href: '/' },
-              { label: 'MongoDB Cloud Sync', href: '/' }
-            ].map((link, idx) => (
-              <li key={idx}>
-                <a
-                  href={link.href}
-                  style={{ color: '#64748b', transition: 'var(--transition)', textDecoration: 'none' }}
-                  onMouseEnter={e => e.currentTarget.style.color = 'var(--sky)'}
-                  onMouseLeave={e => e.currentTarget.style.color = '#64748b'}
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Column 3: Hot Routes */}
-        <div>
+        {/* Column 2: Hot Routes */}
+        <div style={{ justifySelf: 'center', minWidth: 160 }}>
           <h4 style={{
             color: 'white',
             fontFamily: 'var(--font-display)',
@@ -187,14 +166,14 @@ export default function Footer({ serviceType }) {
                     background: 'none',
                     border: 'none',
                     padding: 0,
-                    color: '#64748b',
+                    color: '#ffffff',
                     fontSize: 13,
                     textAlign: 'left',
                     cursor: 'pointer',
                     transition: 'var(--transition)'
                   }}
                   onMouseEnter={e => e.currentTarget.style.color = 'var(--sky)'}
-                  onMouseLeave={e => e.currentTarget.style.color = '#64748b'}
+                  onMouseLeave={e => e.currentTarget.style.color = '#ffffff'}
                 >
                   {route.label}
                 </button>
@@ -203,7 +182,7 @@ export default function Footer({ serviceType }) {
           </ul>
         </div>
 
-        {/* Column 4: Newsletter */}
+        {/* Column 3: Newsletter */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <h4 style={{
             color: 'white',
@@ -214,7 +193,7 @@ export default function Footer({ serviceType }) {
             textTransform: 'uppercase',
             marginBottom: 4
           }}>Join Newsletter</h4>
-          <p style={{ fontSize: 13, color: '#64748b', lineHeight: 1.5 }}>
+          <p style={{ fontSize: 13, color: '#ffffff', lineHeight: 1.5 }}>
             {isHotels
               ? 'Subscribe to get notifications on smart hotel deal analytics and pricing insights.'
               : 'Subscribe to get notifications on smart flight deal analytics and pricing insights.'
@@ -246,6 +225,7 @@ export default function Footer({ serviceType }) {
                   type="email"
                   placeholder="Your email address"
                   value={email}
+                  disabled={loading}
                   onChange={e => {
                     setEmail(e.target.value);
                     if (error) setError('');
@@ -261,32 +241,33 @@ export default function Footer({ serviceType }) {
                     borderRadius: 'var(--radius-sm)',
                     background: 'rgba(255, 255, 255, 0.03)',
                     border: error ? '1px solid var(--danger)' : '1px solid rgba(255, 255, 255, 0.08)',
-                    color: 'white',
+                    color: loading ? '#64748b' : 'white',
                     fontSize: 13,
                     outline: 'none',
                     transition: 'var(--transition)',
-                    cursor: 'text',
+                    cursor: loading ? 'not-allowed' : 'text',
                   }}
-                  onFocus={e => e.currentTarget.style.borderColor = error ? 'var(--danger)' : 'var(--sky)'}
-                  onBlur={e => e.currentTarget.style.borderColor = error ? 'var(--danger)' : 'rgba(255, 255, 255, 0.08)'}
+                  onFocus={e => !loading && (e.currentTarget.style.borderColor = error ? 'var(--danger)' : 'var(--sky)')}
+                  onBlur={e => !loading && (e.currentTarget.style.borderColor = error ? 'var(--danger)' : 'rgba(255, 255, 255, 0.08)')}
                 />
                 <button
                   type="button"
                   onClick={handleSubscribe}
+                  disabled={loading}
                   style={{
                     padding: '10px 16px',
                     borderRadius: 'var(--radius-sm)',
-                    background: 'var(--sky)',
+                    background: loading ? '#475569' : 'var(--sky)',
                     color: 'white',
                     fontWeight: 600,
                     fontSize: 13,
-                    cursor: 'pointer',
+                    cursor: loading ? 'not-allowed' : 'pointer',
                     transition: 'var(--transition)',
                   }}
-                  onMouseEnter={e => e.currentTarget.style.background = 'var(--sky-dark)'}
-                  onMouseLeave={e => e.currentTarget.style.background = 'var(--sky)'}
+                  onMouseEnter={e => !loading && (e.currentTarget.style.background = 'var(--sky-dark)')}
+                  onMouseLeave={e => !loading && (e.currentTarget.style.background = 'var(--sky)')}
                 >
-                  Join
+                  {loading ? 'Joining...' : 'Join'}
                 </button>
               </div>
               {error && (
@@ -328,7 +309,7 @@ export default function Footer({ serviceType }) {
         gap: 16,
         fontSize: 12
       }}>
-        <div style={{ color: '#64748b' }}>
+        <div style={{ color: '#ffffff' }}>
           &copy; {currentYear} TripMind AI · Powered by Neuronet Systems Pvt. Ltd.
         </div>
         <div style={{ display: 'flex', gap: 24 }}>
@@ -336,9 +317,9 @@ export default function Footer({ serviceType }) {
             <a
               key={idx}
               href="/"
-              style={{ color: '#64748b', textDecoration: 'none', transition: 'var(--transition)' }}
+              style={{ color: '#ffffff', textDecoration: 'none', transition: 'var(--transition)' }}
               onMouseEnter={e => e.currentTarget.style.color = 'var(--sky)'}
-              onMouseLeave={e => e.currentTarget.style.color = '#64748b'}
+              onMouseLeave={e => e.currentTarget.style.color = '#ffffff'}
             >
               {policy}
             </a>
