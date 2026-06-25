@@ -40,11 +40,11 @@ export default function Footer({ serviceType }) {
   };
 
   const handleHotLink = (city, iata) => {
-    if (serviceType === 'hotels') {
+    if (isHotels) {
       const checkIn = new Date();
       checkIn.setDate(checkIn.getDate() + 7); // 7 days from now
-      const checkOut = new Date();
-      checkOut.setDate(checkIn.getDate() + 3); // 3 nights
+      const checkOut = new Date(checkIn);
+      checkOut.setDate(checkOut.getDate() + 3); // 3 nights
 
       const searchData = {
         serviceType: 'hotels',
