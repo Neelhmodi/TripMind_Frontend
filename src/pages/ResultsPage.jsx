@@ -290,22 +290,7 @@ export default function ResultsPage() {
               <span>🔍</span> Modify Search
             </button>
 
-            {flights?.[0]?.google_search_url && (
-              <button
-                onClick={() => window.open(flights[0].google_search_url, '_blank')}
-                style={{
-                  background: 'rgba(255,255,255,0.15)', color: 'white',
-                  border: '1px solid rgba(255,255,255,0.25)',
-                  borderRadius: 8, padding: '8px 20px', fontSize: 13, fontWeight: 600,
-                  cursor: 'pointer', transition: 'var(--transition)',
-                  display: 'flex', alignItems: 'center', gap: 6
-                }}
-                onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.25)'}
-                onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.15)'}
-              >
-                <span>🔗</span> View on {isHotels ? 'Google Hotels' : 'Google Flights'} ↗
-              </button>
-            )}
+
           </div>
 
           {showSearch && ReactDOM.createPortal(
@@ -699,39 +684,8 @@ export default function ResultsPage() {
                       <FlightCard key={`${flight.flight_number}-${i}`} flight={flight} index={i} />
                     ))
                   )}
-                  <div style={{ textAlign: 'center', padding: '16px 0', color: 'var(--slate)', fontSize: 13, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
-                    <div>
-                      ✓ Showing all {flights.length} results · Prices from {isHotels ? 'Google Hotels' : 'Google Flights'} via SerpApi
-                    </div>
-                    {flights[0]?.google_search_url && (
-                      <a
-                        href={flights[0].google_search_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: 6,
-                          color: 'var(--sky)',
-                          fontWeight: 700,
-                          textDecoration: 'none',
-                          fontSize: 13,
-                          background: 'rgba(7, 112, 227, 0.06)',
-                          padding: '6px 16px',
-                          borderRadius: 8,
-                          border: '1px solid rgba(7, 112, 227, 0.15)',
-                          transition: 'var(--transition)'
-                        }}
-                        onMouseEnter={e => {
-                          e.currentTarget.style.background = 'rgba(7, 112, 227, 0.12)';
-                        }}
-                        onMouseLeave={e => {
-                          e.currentTarget.style.background = 'rgba(7, 112, 227, 0.06)';
-                        }}
-                      >
-                        🔗 Open search page on {isHotels ? 'Google Hotels' : 'Google Flights'} ↗
-                      </a>
-                    )}
+                  <div style={{ textAlign: 'center', padding: '16px 0', color: 'var(--slate)', fontSize: 13 }}>
+                    ✓ Showing all {flights.length} results · Prices from {isHotels ? 'Google Hotels' : 'Google Flights'} via SerpApi
                   </div>
                 </div>
               )}
